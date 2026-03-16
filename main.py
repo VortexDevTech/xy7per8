@@ -50,10 +50,19 @@ class Config:
         if ENVIRONMENT == "colab":
             try:
                 from google.colab import userdata
-                return userdata.get(key)
+                value = userdata.get(key)
+                if value is not None and value != "":
+                    return value
             except Exception:
-                return os.environ.get(key, default)
-        return os.environ.get(key, default)
+                pass
+            
+        value = os.environ.get(key)
+    
+        # Return default if missing OR empty
+        if value is None or value == "":
+            return default
+    
+        return value
 
     DB_PATH = "./db.json"
     TEMP_DIR = "./temp"
