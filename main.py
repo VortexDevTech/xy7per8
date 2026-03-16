@@ -1331,7 +1331,7 @@ async def main():
         db = DatabaseManager.load()
         processor = EpisodeProcessor(anoboye)
 
-        all_episodes = [anoboye.get_latest_episodes()[1]]
+        all_episodes = anoboye.get_latest_episodes()[:15]
         print(f"📊 Found {len(all_episodes)} episode(s)\n")
 
         for idx, ep in enumerate(all_episodes, 1):
