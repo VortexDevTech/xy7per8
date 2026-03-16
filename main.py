@@ -198,7 +198,7 @@ class Utils:
             "quiet": True,
             "no_warnings": True,
             "extract_flat": False,
-            "impersonate": ImpersonateTarget.from_str("safari"),
+            "impersonate": ImpersonateTarget.from_str("firefox"),
         }
         if config:
             ydl_opts.update(config)
@@ -448,7 +448,7 @@ class VideoProcessor:
             subprocess.run(
                 [
                     "yt-dlp", "-N", "16",
-                    "--impersonate", "safari",
+                    "--impersonate", "firefox",
                     "-f", "bv+ba/b",
                     "--merge-output-format", "mkv",
                     stream_url, "-o", final,
@@ -521,7 +521,7 @@ class AnoBoye:
             "User-Agent": (
                 "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
                 "AppleWebKit/537.36 (KHTML, like Gecko) "
-                "Chrome/120.0.0.0 Safari/537.36"
+                "Chrome/120.0.0.0 firefox/537.36"
             ),
             "Accept": (
                 "text/html,application/xhtml+xml,"
