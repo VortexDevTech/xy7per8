@@ -124,7 +124,7 @@ jobs:
             yt-dlp \
             httpx \
             beautifulsoup4 \
-            pyrogram \
+            Kurigram \
             tgcrypto \
             tqdm
           python -c "import yt_dlp, httpx, bs4, pyrogram; print('✅ All imports OK')"
