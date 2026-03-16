@@ -2,7 +2,7 @@ name: Donghua Auto Uploader
 
 on:
   schedule:
-    - cron: "0 */3 * * *"  # Every 2 hours
+    - cron: "0 */3 * * *"  # Every 3 hours
   workflow_dispatch:        # Manual trigger
 
 permissions:
@@ -115,7 +115,7 @@ jobs:
             yt-dlp \
             httpx \
             beautifulsoup4 \
-            pyrogram \
+            Kurigram \
             tgcrypto \
             tqdm
 
