@@ -19,6 +19,7 @@ import httpx
 from bs4 import BeautifulSoup
 from pyrogram import Client
 from pyrogram.errors import FloodWait, RPCError
+from pyrogram.types import InputMediaPhoto
 
 
 # ============================================================================
@@ -55,13 +56,10 @@ class Config:
                     return value
             except Exception:
                 pass
-            
+
         value = os.environ.get(key)
-    
-        # Return default if missing OR empty
         if value is None or value == "":
             return default
-    
         return value
 
     DB_PATH = "./db.json"
@@ -69,11 +67,17 @@ class Config:
     DOWNLOAD_DIR = "./downloads"
 
     TELEGRAM_API_ID = int(get_secret("TELEGRAM_API_ID", 26684954))
-    TELEGRAM_API_HASH = get_secret("TELEGRAM_API_HASH", "a709a6225180f08416b5d9effd1c9fd1")
+    TELEGRAM_API_HASH = get_secret(
+        "TELEGRAM_API_HASH", "a709a6225180f08416b5d9effd1c9fd1"
+    )
     TELEGRAM_USER_SESSION = get_secret("TG_SESSION_STRING")
     TELEGRAM_BOT_TOKEN = get_secret("TELEGRAM_BOT_TOKEN")
-    TELEGRAM_MAIN_CHANNEL_ID = int(get_secret("TELEGRAM_MAIN_CHANNEL_ID", -1003028652784))
-    TELEGRAM_FORWARDED_CHANNEL_ID = int(get_secret("TELEGRAM_FORWARDED_CHANNEL_ID", -1003794526596))
+    TELEGRAM_MAIN_CHANNEL_ID = int(
+        get_secret("TELEGRAM_MAIN_CHANNEL_ID", -1003028652784)
+    )
+    TELEGRAM_FORWARDED_CHANNEL_ID = int(
+        get_secret("TELEGRAM_FORWARDED_CHANNEL_ID", -1003794526596)
+    )
     TELEGRAM_MAIN_CHANNEL = "Donghua_Sigmas"
     MAX_FILE_SIZE = 1.85 * 1024 * 1024 * 1024
 
@@ -83,18 +87,6 @@ class Config:
 # ============================================================================
 
 class DatabaseManager:
-    """
-    DB structure:
-    [
-        {
-            "episode": "Anime Name Ep 5",
-            "uid": "Anime_Name_Ep5",
-            "link": "https://anoboye.com/...",
-            "server": "donghuastream darkplayer",
-            "qualities_downloaded": [2160, 1080, 720, 480]
-        }
-    ]
-    """
 
     @staticmethod
     def load() -> List[Dict]:
@@ -218,38 +210,103 @@ class Utils:
                 raise RuntimeError(f"yt-dlp extraction failed: {e}")
 
     @staticmethod
-    def download_metadata(urls: List[str], output_dir: str) -> List[str]:
-        if not urls:
+    def download_cover(url: str, output_dir: str) -> Optional[str]:
+        """Download cover image. Returns path or None."""
+        if not url:
+            return None
+        out = Path(output_dir)
+        out.mkdir(parents=True, exist_ok=True)
+        try:
+            with httpx.Client(timeout=60.0, follow_redirects=True) as client:
+                r = client.get(url)
+                r.raise_for_status()
+                path = out / "cover.jpg"
+                with open(path, "wb") as f:
+                    f.write(r.content)
+                return str(path)
+        except Exception as e:
+            print(f"    ⚠️ Cover download failed: {e}")
+            return None
+
+    @staticmethod
+    def download_subtitles(
+        tracks: List[Dict], output_dir: str
+    ) -> List[str]:
+        """
+        Download subtitle files from unified track list.
+
+        tracks: [{"url": "...", "label": "English", "code": "en"}, ...]
+        Returns list of downloaded file paths.
+        """
+        if not tracks:
             return []
 
         out_dir = Path(output_dir)
         out_dir.mkdir(parents=True, exist_ok=True)
-        subtitle_ext = (".vtt", ".srt", ".ass", ".ssa")
         downloaded = []
 
         with httpx.Client(timeout=60.0, follow_redirects=True) as client:
-            for url in urls:
+            for track in tracks:
                 try:
-                    ext = os.path.splitext(url)[1].lower()
-                    r = client.get(url)
-                    r.raise_for_status()
-                    content_type = r.headers.get("content-type", "")
+                    url = track["url"]
+                    label = track.get("label", "unknown")
+                    code = track.get("code", "und")
 
-                    if "image" in content_type:
-                        filename = "cover.jpg"
-                    elif ext in subtitle_ext:
-                        filename = os.path.basename(url)
+                    # Determine extension from URL
+                    url_ext = os.path.splitext(url.split("?")[0])[1].lower()
+                    if url_ext not in (".vtt", ".srt", ".ass", ".ssa"):
+                        url_ext = f".{track.get('ext', 'vtt')}"
+
+                    # Build filename
+                    if label and label != code:
+                        filename = f"{label}_{code}{url_ext}"
                     else:
-                        continue
+                        filename = f"{code}{url_ext}"
 
                     path = out_dir / filename
+
+                    r = client.get(url)
+                    r.raise_for_status()
+
                     with open(path, "wb") as f:
                         f.write(r.content)
+
                     downloaded.append(str(path))
+
                 except Exception as e:
-                    print(f"    ⚠️ Metadata download failed: {e}")
+                    print(f"    ⚠️ Subtitle download failed ({track.get('code', '?')}): {e}")
 
         return downloaded
+
+    @staticmethod
+    def extract_subtitle_tracks_from_ytdlp(info_dict: Dict) -> List[Dict]:
+        """Extract subtitle tracks from yt-dlp info_dict into unified format."""
+        tracks = []
+
+        for code, subs_list in info_dict.get("subtitles", {}).items():
+            # Prefer vtt > srt > ass > first available
+            best = None
+            for sub in subs_list:
+                ext = sub.get("ext", "")
+                if ext == "vtt":
+                    best = sub
+                    break
+                elif ext in ("srt", "ass", "ssa") and best is None:
+                    best = sub
+                elif best is None:
+                    best = sub
+
+            if best and best.get("url"):
+                tracks.append(
+                    {
+                        "url": best["url"],
+                        "label": code,
+                        "code": code,
+                        "ext": best.get("ext", "vtt"),
+                    }
+                )
+
+        return tracks
 
     @staticmethod
     def get_standard_quality_by_width(formats: List[Dict]) -> List[Dict]:
@@ -292,6 +349,57 @@ class Utils:
         return selected
 
     @staticmethod
+    def generate_screenshots(
+        video_path: Path, output_dir: Path, count: int = 5
+    ) -> List[str]:
+        """Generate evenly-spaced screenshots from a video file."""
+        try:
+            result = subprocess.run(
+                [
+                    "ffprobe", "-v", "error",
+                    "-show_entries", "format=duration",
+                    "-of", "default=noprint_wrappers=1:nokey=1",
+                    str(video_path),
+                ],
+                capture_output=True,
+                text=True,
+            )
+            duration = float(result.stdout.strip())
+
+            if duration <= 0:
+                return []
+
+            screenshots = []
+            interval = duration / (count + 1)
+
+            for i in range(1, count + 1):
+                ts = interval * i
+                out_path = output_dir / f"screenshot_{i:02d}.jpg"
+
+                subprocess.run(
+                    [
+                        "ffmpeg", "-y",
+                        "-ss", f"{ts:.2f}",
+                        "-i", str(video_path),
+                        "-vframes", "1",
+                        "-q:v", "2",
+                        str(out_path),
+                    ],
+                    check=True,
+                    capture_output=True,
+                )
+
+                if out_path.exists() and out_path.stat().st_size > 0:
+                    screenshots.append(str(out_path))
+
+            print(f"  📸 Generated {len(screenshots)} screenshot(s)")
+            return screenshots
+
+        except Exception as e:
+            print(f"  ⚠️ Screenshot generation failed: {e}")
+            return []
+
+    @staticmethod
     def cleanup():
         if os.path.exists(Config.TEMP_DIR):
             shutil.rmtree(Config.TEMP_DIR)
@@ -326,7 +434,8 @@ class VideoProcessor:
 
         final = os.path.join(
             ep_dir,
-            f"[{ep_number}] [{anime_title}] [{quality}p] [@{Config.TELEGRAM_MAIN_CHANNEL}].mkv",
+            f"[{ep_number}] [{anime_title}] [{quality}p] "
+            f"[@{Config.TELEGRAM_MAIN_CHANNEL}].mkv",
         )
 
         if os.path.exists(final):
@@ -348,15 +457,39 @@ class VideoProcessor:
                 check=True,
             )
 
+            # Mux subtitles into MKV
             if sub_files:
                 temp_out = final.replace(".mkv", "_muxed.mkv")
                 cmd = ["ffmpeg", "-y", "-i", final]
+
                 for sub in sub_files:
                     cmd.extend(["-i", sub])
+
                 cmd.extend(["-map", "0:v", "-map", "0:a?"])
+
                 for i in range(len(sub_files)):
                     cmd.extend(["-map", f"{i + 1}:0"])
-                cmd.extend(["-c", "copy", temp_out])
+
+                cmd.extend(["-c:v", "copy", "-c:a", "copy", "-c:s", "srt"])
+
+                # Add language metadata per subtitle track
+                for i, sub in enumerate(sub_files):
+                    stem = Path(sub).stem
+                    if "_" in stem:
+                        label, code = stem.rsplit("_", 1)
+                    else:
+                        label = code = stem
+
+                    cmd.extend(
+                        [
+                            f"-metadata:s:s:{i}",
+                            f"language={code}",
+                            f"-metadata:s:s:{i}",
+                            f"title={label}",
+                        ]
+                    )
+
+                cmd.append(temp_out)
 
                 subprocess.run(cmd, check=True, capture_output=True, text=True)
                 os.replace(temp_out, final)
@@ -367,7 +500,12 @@ class VideoProcessor:
         except subprocess.CalledProcessError as e:
             print(f"    ❌ {quality}p failed (exit {e.returncode})")
             if e.stderr:
-                print(f"       {e.stderr.strip()[:200]}")
+                print(f"       {e.stderr.strip()[:300]}")
+            # Clean partial file
+            try:
+                Path(final).unlink(missing_ok=True)
+            except Exception:
+                pass
             return False, quality
 
 
@@ -385,7 +523,10 @@ class AnoBoye:
                 "AppleWebKit/537.36 (KHTML, like Gecko) "
                 "Chrome/120.0.0.0 Safari/537.36"
             ),
-            "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+            "Accept": (
+                "text/html,application/xhtml+xml,"
+                "application/xml;q=0.9,*/*;q=0.8"
+            ),
         }
 
     # ------------------------------------------------------------------
@@ -414,7 +555,9 @@ class AnoBoye:
 
             img_tag = article.find("img", itemprop="image")
             image = (
-                (img_tag.get("data-src") or img_tag.get("src")) if img_tag else None
+                (img_tag.get("data-src") or img_tag.get("src"))
+                if img_tag
+                else None
             )
 
             type_tag = article.find("div", class_="typez")
@@ -442,7 +585,7 @@ class AnoBoye:
         """
         Returns structured map of every allowed player.
 
-        Comixy Sub is treated identically to Comixy DarkPlayer.
+        Comixy Sub is treated as darkplayer.
 
         Example:
         {
@@ -467,49 +610,47 @@ class AnoBoye:
 
             hostname_lower = hostname.lower()
 
-            # ---- identify server ----
+            # Identify server
             server = None
             for s in ALLOWED_SERVERS:
                 if s in hostname_lower:
                     server = s
                     break
             if server is None:
-                print(f"    ⏭️ Ignoring unknown server: {hostname}")
+                print(f"    ⏭️ Ignoring server: {hostname}")
                 continue
 
-            # ---- identify player type ----
+            # Identify player type
             if "dark" in hostname_lower:
                 ptype = "darkplayer"
             elif "daily" in hostname_lower:
                 ptype = "dailyplayer"
             elif "sub" in hostname_lower:
-                # Comixy Sub is the same as DarkPlayer
-                ptype = "darkplayer"
+                ptype = "darkplayer"  # Comixy Sub == DarkPlayer
             else:
-                ptype = "darkplayer"  # default fallback
+                ptype = "darkplayer"
 
-            # ---- decode base64 ----
+            # Decode base64
             padded = raw_b64 + "=" * (-len(raw_b64) % 4)
             try:
-                decoded = base64.b64decode(padded).decode("utf-8", errors="ignore")
+                decoded = base64.b64decode(padded).decode(
+                    "utf-8", errors="ignore"
+                )
             except Exception:
                 continue
 
-            # ---- extract ID / URL ----
+            # Extract ID
             player_id = None
 
             if ptype == "darkplayer":
-                # Try id= pattern first (standard darkplayer)
                 m = re.search(r"id=([a-zA-Z0-9]+)", decoded)
                 if m:
                     player_id = m.group(1)
                 else:
-                    # Fallback: extract URL from src attribute
                     m = re.search(r'src=["\']([^"\']+)["\']', decoded)
                     if m:
                         player_id = m.group(1)
                     else:
-                        # Last fallback: raw URL
                         m = re.search(r"https?://[^\s\"'<>]+", decoded)
                         if m:
                             player_id = m.group(0)
@@ -521,17 +662,104 @@ class AnoBoye:
 
             if player_id:
                 players.setdefault(server, {})[ptype] = player_id
-                tag = f"{player_id[:35]}..." if len(player_id) > 35 else player_id
+                tag = (
+                    f"{player_id[:35]}..."
+                    if len(player_id) > 35
+                    else player_id
+                )
                 print(f"    🎮 {hostname} → {ptype} ({tag})")
 
         return players
 
     # ------------------------------------------------------------------
+    def extract_darkplayer_config(self, player_id: str) -> Optional[Dict]:
+        """
+        Request darkplayer.php?id=<id>, parse HTML,
+        extract config (videoUrl, tracks, thumbnail).
+
+        Returns:
+        {
+            "video_url": "https://...",
+            "tracks": [{"url": "...", "label": "English", "code": "en"}, ...],
+            "thumbnail": "https://...",
+        }
+        """
+        if player_id.startswith("http"):
+            # Already a full URL, can't extract config page
+            return None
+
+        url = f"{self.base_url}/watch/darkplayer.php?id={player_id}"
+
+        try:
+            with httpx.Client(
+                headers=self.headers, timeout=15.0, follow_redirects=True
+            ) as client:
+                response = client.get(url)
+                response.raise_for_status()
+
+            html = response.text
+
+            # Extract videoUrl
+            m = re.search(
+                r'videoUrl\s*:\s*"((?:[^"\\]|\\.)*)"', html
+            )
+            video_url = (
+                m.group(1).replace("\\/", "/") if m else None
+            )
+
+            # Extract tracks JSON array
+            tracks = []
+            m = re.search(r"tracks\s*:\s*(\[.*?\])", html, re.DOTALL)
+            if m:
+                try:
+                    raw_tracks = json.loads(m.group(1))
+                    for t in raw_tracks:
+                        file_url = t.get("file", "").replace("\\/", "/")
+                        if file_url:
+                            tracks.append(
+                                {
+                                    "url": file_url,
+                                    "label": t.get("label", "Unknown"),
+                                    "code": t.get("code", "und"),
+                                }
+                            )
+                except json.JSONDecodeError:
+                    pass
+
+            # Extract thumbnail
+            m = re.search(
+                r'thumbnail\s*:\s*"((?:[^"\\]|\\.)*)"', html
+            )
+            thumbnail = (
+                m.group(1).replace("\\/", "/") if m else None
+            )
+
+            if video_url:
+                print(
+                    f"    📋 DarkPlayer config: "
+                    f"url=✓ tracks={len(tracks)} thumb={'✓' if thumbnail else '✗'}"
+                )
+                return {
+                    "video_url": video_url,
+                    "tracks": tracks,
+                    "thumbnail": thumbnail,
+                }
+
+            return None
+
+        except Exception as e:
+            print(f"    ⚠️ DarkPlayer config extraction failed: {e}")
+            return None
+
+    # ------------------------------------------------------------------
     def darkplayer_manifest_url(self, player_id: str) -> str:
-        """Build manifest URL. If player_id is already a URL, return as-is."""
+        """Fallback: build manifest URL directly."""
         if player_id.startswith("http"):
             return player_id
-        return f"{self.base_url}/watch/darkplayer.php?action=playlist&id={player_id}"
+        return (
+            f"{self.base_url}/watch/darkplayer.php?"
+            f"action=playlist&id={player_id}"
+        )
 
 
 # ============================================================================
@@ -551,8 +779,10 @@ class TelegramUploader:
         user_client: Client,
         bot_client: Client,
     ) -> List[int]:
-        """Upload all MKV + subtitle zip. Returns sent message IDs."""
-
+        """
+        Upload all MKV files, subtitles.zip, and screenshots.
+        Returns ALL sent message IDs for forwarding.
+        """
         if ENVIRONMENT == "colab":
             from tqdm.notebook import tqdm
         else:
@@ -563,23 +793,23 @@ class TelegramUploader:
         thumb = str(cover) if cover.exists() else None
         zip_file = ep_path / "subtitles.zip"
 
+        sent_ids: List[int] = []
+
         # ---- build video queue (split if needed) ----
         video_queue: List[Path] = []
         for mkv in sorted(ep_path.glob("*.mkv")):
-            video_queue.extend(Utils.split_video_if_needed(mkv, Config.MAX_FILE_SIZE))
-
-        if not video_queue and not zip_file.exists():
-            print("  ⚠️ Nothing to upload.")
-            return []
-
-        sent_ids: List[int] = []
+            video_queue.extend(
+                Utils.split_video_if_needed(mkv, Config.MAX_FILE_SIZE)
+            )
 
         # ---- upload videos ----
         if video_queue:
             largest = max(video_queue, key=lambda p: p.stat().st_size)
             semaphore = asyncio.Semaphore(3)
 
-            async def worker(fp: Path, client: Client, pos: int) -> Optional[int]:
+            async def worker(
+                fp: Path, client: Client, pos: int
+            ) -> Optional[int]:
                 async with semaphore:
                     size = fp.stat().st_size
                     pbar = tqdm(
@@ -614,7 +844,7 @@ class TelegramUploader:
                         return msg.id if msg else None
 
                     except RPCError as e:
-                        print(f"\n  ❌ Upload RPC error: {e}")
+                        print(f"\n  ❌ Upload error: {e}")
                         return None
 
                     finally:
@@ -662,7 +892,45 @@ class TelegramUploader:
             finally:
                 pbar.close()
 
-        print(f"  ✅ Upload done — {len(sent_ids)} message(s) sent")
+        # ---- upload screenshots as media group ----
+        screenshots = sorted(ep_path.glob("screenshot_*.jpg"))
+        if screenshots:
+            print(f"  📸 Uploading {len(screenshots)} screenshot(s)...")
+            try:
+                media = [
+                    InputMediaPhoto(str(s))
+                    for s in screenshots
+                ]
+
+                messages = await bot_client.send_media_group(
+                    chat_id=Config.TELEGRAM_MAIN_CHANNEL_ID,
+                    media=media,
+                )
+                if messages:
+                    sent_ids.extend(m.id for m in messages)
+                    print(
+                        f"  ✅ Screenshots sent "
+                        f"({len(messages)} message(s))"
+                    )
+
+            except FloodWait as e:
+                print(f"  ⏳ Screenshot flood-wait {e.value}s")
+                await asyncio.sleep(e.value)
+                messages = await bot_client.send_media_group(
+                    chat_id=Config.TELEGRAM_MAIN_CHANNEL_ID,
+                    media=[InputMediaPhoto(str(s)) for s in screenshots],
+                )
+                if messages:
+                    sent_ids.extend(m.id for m in messages)
+
+            except RPCError as e:
+                print(f"  ❌ Screenshot upload error: {e}")
+
+        if not sent_ids:
+            print("  ⚠️ Nothing was uploaded.")
+        else:
+            print(f"  ✅ Upload done — {len(sent_ids)} message(s) total")
+
         return sent_ids
 
     # ------------------------------------------------------------------
@@ -673,6 +941,7 @@ class TelegramUploader:
         from_chat: int,
         to_chat: int,
     ):
+        """Forward ALL uploaded messages to the forwarded channel."""
         if not message_ids:
             return
         if from_chat == to_chat:
@@ -695,7 +964,7 @@ class TelegramUploader:
                 from_chat_id=from_chat,
                 message_ids=message_ids,
             )
-            print(f"  📨 Forwarded after wait")
+            print("  📨 Forwarded after wait")
 
         except RPCError as e:
             print(f"  ❌ Forward failed: {e}")
@@ -713,16 +982,26 @@ class EpisodeProcessor:
     # ------------------------------------------------------------------
     def _select_best_source(
         self, players: Dict[str, Dict[str, str]]
-    ) -> Optional[Tuple[Dict, List[Dict], str]]:
+    ) -> Optional[Dict]:
         """
-        Walk SERVER_PRIORITY list. For each server:
+        Walk SERVER_PRIORITY. For each server:
 
-        1. Probe darkplayer → if has 4K, use it immediately.
-        2. Probe dailyplayer → if has formats, use it.
-        3. Darkplayer had formats but no 4K → use it as fallback.
-        4. Server completely unusable → next server.
+        1. DarkPlayer → extract config → probe with yt-dlp
+           - Has 4K → USE IT
+           - No 4K → try DailyPlayer
+        2. DailyPlayer → probe with yt-dlp
+           - Has formats → USE IT
+        3. DarkPlayer had formats but no 4K → USE IT (fallback)
+        4. Nothing → next server
 
-        Returns (info_dict, target_formats, source_label) or None.
+        Returns dict:
+        {
+            "info_dict": ...,
+            "formats": [...],
+            "source_label": "donghuastream darkplayer",
+            "subtitle_tracks": [{"url":..., "label":..., "code":...}],
+            "thumbnail_url": "https://..." or None,
+        }
         """
 
         for server in SERVER_PRIORITY:
@@ -734,29 +1013,61 @@ class EpisodeProcessor:
 
             dark_info = None
             dark_fmts: List[Dict] = []
-            daily_info = None
-            daily_fmts: List[Dict] = []
+            dark_sub_tracks: List[Dict] = []
+            dark_thumbnail: Optional[str] = None
 
             # ---- probe darkplayer ----
             if "darkplayer" in sp:
                 try:
-                    url = self.anoboye.darkplayer_manifest_url(sp["darkplayer"])
-                    dark_info = Utils.get_file_info_from_yt_dlp(url)
+                    # Step 1: Extract config from darkplayer page
+                    config = self.anoboye.extract_darkplayer_config(
+                        sp["darkplayer"]
+                    )
+
+                    if config and config.get("video_url"):
+                        video_url = config["video_url"]
+                        dark_sub_tracks = config.get("tracks", [])
+                        dark_thumbnail = config.get("thumbnail")
+                    else:
+                        # Fallback to direct manifest URL
+                        video_url = self.anoboye.darkplayer_manifest_url(
+                            sp["darkplayer"]
+                        )
+                        dark_sub_tracks = []
+                        dark_thumbnail = None
+
+                    # Step 2: Probe with yt-dlp
+                    dark_info = Utils.get_file_info_from_yt_dlp(video_url)
                     dark_fmts = Utils.get_standard_quality_by_width(
                         dark_info.get("formats", [])
                     )
 
-                    has_4k = any(f.get("quality") == 2160 for f in dark_fmts)
+                    has_4k = any(
+                        f.get("quality") == 2160 for f in dark_fmts
+                    )
 
                     if has_4k:
-                        print(f"  ✅ {server.title()} DarkPlayer has 4K — selected")
-                        return dark_info, dark_fmts, f"{server} darkplayer"
+                        label = f"{server} darkplayer"
+                        print(
+                            f"  ✅ {server.title()} DarkPlayer "
+                            f"has 4K — selected"
+                        )
+                        return {
+                            "info_dict": dark_info,
+                            "formats": dark_fmts,
+                            "source_label": label,
+                            "subtitle_tracks": dark_sub_tracks,
+                            "thumbnail_url": dark_thumbnail,
+                        }
 
                     if dark_fmts:
-                        qs = ", ".join(str(f["quality"]) for f in dark_fmts)
+                        qs = ", ".join(
+                            str(f["quality"]) for f in dark_fmts
+                        )
                         print(
-                            f"  ⚠️ {server.title()} DarkPlayer no 4K "
-                            f"(has [{qs}]p), trying DailyPlayer..."
+                            f"  ⚠️ {server.title()} DarkPlayer "
+                            f"no 4K (has [{qs}]p), "
+                            f"trying DailyPlayer..."
                         )
                     else:
                         print(
@@ -765,34 +1076,71 @@ class EpisodeProcessor:
                         )
 
                 except Exception as e:
-                    print(f"  ❌ {server.title()} DarkPlayer probe failed: {e}")
+                    print(
+                        f"  ❌ {server.title()} DarkPlayer "
+                        f"probe failed: {e}"
+                    )
 
             # ---- probe dailyplayer ----
             if "dailyplayer" in sp:
                 try:
-                    url = f"https://www.dailymotion.com/video/{sp['dailyplayer']}"
-                    daily_info = Utils.get_file_info_from_yt_dlp(url)
+                    dm_url = (
+                        f"https://www.dailymotion.com/video/"
+                        f"{sp['dailyplayer']}"
+                    )
+                    daily_info = Utils.get_file_info_from_yt_dlp(dm_url)
                     daily_fmts = Utils.get_standard_quality_by_width(
                         daily_info.get("formats", [])
                     )
 
                     if daily_fmts:
-                        print(f"  ✅ Using {server.title()} DailyPlayer")
-                        return daily_info, daily_fmts, f"{server} dailyplayer"
+                        label = f"{server} dailyplayer"
+                        daily_sub_tracks = (
+                            Utils.extract_subtitle_tracks_from_ytdlp(
+                                daily_info
+                            )
+                        )
+                        print(
+                            f"  ✅ Using {server.title()} DailyPlayer"
+                        )
+                        return {
+                            "info_dict": daily_info,
+                            "formats": daily_fmts,
+                            "source_label": label,
+                            "subtitle_tracks": daily_sub_tracks,
+                            "thumbnail_url": daily_info.get("thumbnail"),
+                        }
 
-                    print(f"  ⚠️ {server.title()} DailyPlayer — no usable formats")
+                    print(
+                        f"  ⚠️ {server.title()} DailyPlayer — "
+                        f"no usable formats"
+                    )
 
                 except Exception as e:
-                    print(f"  ❌ {server.title()} DailyPlayer probe failed: {e}")
+                    print(
+                        f"  ❌ {server.title()} DailyPlayer "
+                        f"probe failed: {e}"
+                    )
 
             # ---- fallback to darkplayer without 4K ----
             if dark_fmts and dark_info:
+                label = f"{server} darkplayer"
                 print(
-                    f"  ✅ Falling back to {server.title()} DarkPlayer (no 4K)"
+                    f"  ✅ Falling back to {server.title()} "
+                    f"DarkPlayer (no 4K)"
                 )
-                return dark_info, dark_fmts, f"{server} darkplayer"
+                return {
+                    "info_dict": dark_info,
+                    "formats": dark_fmts,
+                    "source_label": label,
+                    "subtitle_tracks": dark_sub_tracks,
+                    "thumbnail_url": dark_thumbnail,
+                }
 
-            print(f"  ⏭️ {server.title()} exhausted, trying next server...")
+            print(
+                f"  ⏭️ {server.title()} exhausted, "
+                f"trying next server..."
+            )
 
         return None
 
@@ -802,7 +1150,6 @@ class EpisodeProcessor:
     ) -> Optional[Tuple[str, List[int], str]]:
         """
         Full pipeline for one episode.
-
         Returns (ep_dir, qualities_downloaded, server_used) or None.
         """
         uid = ep["uid"]
@@ -830,36 +1177,49 @@ class EpisodeProcessor:
             result = self._select_best_source(players)
 
             if result is None:
-                print("  ❌ No usable source from allowed servers — skipping")
+                print(
+                    "  ❌ No usable source from allowed servers "
+                    "— skipping"
+                )
                 return None
 
-            info_dict, target_formats, source_label = result
+            info_dict = result["info_dict"]
+            target_formats = result["formats"]
+            source_label = result["source_label"]
+            subtitle_tracks = result["subtitle_tracks"]
+            thumbnail_url = result["thumbnail_url"]
+
             print(f"  📺 Source: {source_label}")
 
             # ---- prepare directory ----
             clean_title = ep["name"].replace(" ", "_")
             ep_dir = os.path.join(
-                Config.DOWNLOAD_DIR, f"{clean_title}_Ep_{ep['ep_number']}"
+                Config.DOWNLOAD_DIR,
+                f"{clean_title}_Ep_{ep['ep_number']}",
             )
             os.makedirs(ep_dir, exist_ok=True)
 
             # ---- cover image ----
-            if ep.get("image"):
-                Utils.download_metadata([ep["image"]], ep_dir)
+            cover_url = ep.get("image") or thumbnail_url
+            if cover_url:
+                Utils.download_cover(cover_url, ep_dir)
                 print("  ✅ Cover downloaded")
 
-            # ---- subtitles ----
-            subtitle_urls = [
-                s["url"]
-                for subs in info_dict.get("subtitles", {}).values()
-                for s in subs
-            ]
-            subtitles = Utils.download_metadata(subtitle_urls, ep_dir)
+            # ---- download subtitles ----
+            subtitles = Utils.download_subtitles(
+                subtitle_tracks, ep_dir
+            )
             if subtitles:
-                print(f"  ✅ {len(subtitles)} subtitle file(s)")
+                print(
+                    f"  ✅ {len(subtitles)} subtitle file(s) downloaded"
+                )
+            else:
+                print("  ℹ️ No subtitles available")
 
-            # ---- download all formats ----
-            qlabels = ", ".join(f"{f['quality']}p" for f in target_formats)
+            # ---- download all formats in parallel ----
+            qlabels = ", ".join(
+                f"{f['quality']}p" for f in target_formats
+            )
             print(f"  🎯 Formats: [{qlabels}]")
 
             success_qualities: List[int] = []
@@ -882,11 +1242,13 @@ class EpisodeProcessor:
                     if ok:
                         success_qualities.append(quality)
 
-            # ---- package subtitles ----
+            # ---- zip subtitles ----
             if subtitles:
                 zip_path = os.path.join(ep_dir, "subtitles.zip")
                 print(f"  📦 Zipping {len(subtitles)} subtitle(s)")
-                with zipfile.ZipFile(zip_path, "w", zipfile.ZIP_DEFLATED) as zf:
+                with zipfile.ZipFile(
+                    zip_path, "w", zipfile.ZIP_DEFLATED
+                ) as zf:
                     for sub in subtitles:
                         zf.write(sub, arcname=os.path.basename(sub))
                 for sub in subtitles:
@@ -894,6 +1256,22 @@ class EpisodeProcessor:
                         os.remove(sub)
                     except FileNotFoundError:
                         pass
+
+            # ---- generate screenshots from smallest video ----
+            if success_qualities:
+                mkvs = sorted(
+                    Path(ep_dir).glob("*.mkv"),
+                    key=lambda p: p.stat().st_size,
+                )
+                if mkvs:
+                    smallest = mkvs[0]
+                    print(
+                        f"  📸 Generating screenshots from: "
+                        f"{smallest.name}"
+                    )
+                    Utils.generate_screenshots(
+                        smallest, Path(ep_dir), count=5
+                    )
 
             # ---- result ----
             if success_qualities:
@@ -908,7 +1286,10 @@ class EpisodeProcessor:
             return None
 
         except Exception as e:
-            print(f"  ❌ Pipeline error: {e.__class__.__name__}: {e}")
+            print(
+                f"  ❌ Pipeline error: "
+                f"{e.__class__.__name__}: {e}"
+            )
             traceback.print_exc()
             if ep_dir:
                 Utils.cleanup_episode_dir(ep_dir)
@@ -950,7 +1331,7 @@ async def main():
         db = DatabaseManager.load()
         processor = EpisodeProcessor(anoboye)
 
-        all_episodes = (anoboye.get_latest_episodes())[:15]
+        all_episodes = anoboye.get_latest_episodes()[:15]
         print(f"📊 Found {len(all_episodes)} episode(s)\n")
 
         for idx, ep in enumerate(all_episodes, 1):
@@ -969,12 +1350,12 @@ async def main():
 
                 ep_dir, qualities, server_used = result
 
-                # ---- upload ----
+                # ---- upload everything ----
                 message_ids = await TelegramUploader.upload_episode(
                     ep_dir, user_client, bot_client
                 )
 
-                # ---- forward ----
+                # ---- forward ALL messages ----
                 if message_ids:
                     await TelegramUploader.forward_messages(
                         bot_client,
@@ -1030,6 +1411,7 @@ async def main():
 if __name__ == "__main__":
     if ENVIRONMENT == "colab":
         import nest_asyncio
+
         nest_asyncio.apply()
 
     asyncio.run(main())
