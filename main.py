@@ -243,9 +243,12 @@ class Utils:
         short = url[:70] + ("..." if len(url) > 70 else "")
         print(f"    🌐 API extraction: {short}")
 
+        transport = httpx.HTTPTransport(retries=3)
+
+
         try:
             with httpx.Client(
-                timeout=90.0, follow_redirects=True
+                timeout=100.0, follow_redirects=True,transport=transport
             ) as client:
                 r = client.get(Config.YT_DLP_API_URL, params=params)
                 r.raise_for_status()
@@ -1240,52 +1243,46 @@ class EpisodeProcessor:
                     )
 
             # ---- probe dailyplayer ----
+
             if "dailyplayer" in sp:
                 try:
                     dm_url = (
                         f"https://www.dailymotion.com/video/"
                         f"{sp['dailyplayer']}"
                     )
-                    daily_info = Utils.get_file_info_from_yt_dlp(
-                        dm_url
-                    )
-                    daily_fmts = (
-                        Utils.get_standard_quality_by_width(
-                            daily_info.get("formats", [])
-                        )
+                    daily_info = Utils.get_file_info_from_yt_dlp(dm_url)
+                    daily_fmts = Utils.get_standard_quality_by_width(
+                        daily_info.get("formats", [])
                     )
 
                     if daily_fmts:
-                        label = f"{server} dailyplayer"
-                        daily_sub_tracks = (
-                            Utils.extract_subtitle_tracks_from_ytdlp(
-                                daily_info
-                            )
-                        )
-                        print(
-                            f"  ✅ Using {server.title()} DailyPlayer"
-                        )
-                        return {
-                            "info_dict": daily_info,
-                            "formats": daily_fmts,
-                            "source_label": label,
-                            "subtitle_tracks": daily_sub_tracks,
-                            "thumbnail_url": daily_info.get(
-                                "thumbnail"
-                            ),
-                        }
+                        daily_best = max(f.get("quality", 0) for f in daily_fmts)
+                        dark_best = max((f.get("quality", 0) for f in dark_fmts), default=0)
 
-                    print(
-                        f"  ⚠️ {server.title()} DailyPlayer — "
-                        f"no usable formats"
-                    )
+                        # Only use DailyPlayer if it offers BETTER quality than DarkPlayer
+                        if daily_best > dark_best:
+                            label = f"{server} dailyplayer"
+                            daily_sub_tracks = Utils.extract_subtitle_tracks_from_ytdlp(daily_info)
+                            print(f"  ✅ Using {server.title()} DailyPlayer ({daily_best}p > {dark_best}p)")
+                            return {
+                                "info_dict": daily_info,
+                                "formats": daily_fmts,
+                                "source_label": label,
+                                "subtitle_tracks": daily_sub_tracks,
+                                "thumbnail_url": daily_info.get("thumbnail"),
+                            }
+
+                        print(
+                            f"  ⚠️ {server.title()} DailyPlayer "
+                            f"({daily_best}p) not better than "
+                            f"DarkPlayer ({dark_best}p)"
+                        )
+
+                    else:
+                        print(f"  ⚠️ {server.title()} DailyPlayer — no usable formats")
 
                 except Exception as e:
-                    print(
-                        f"  ❌ {server.title()} DailyPlayer "
-                        f"probe failed: {e}"
-                    )
-
+                    print(f"  ❌ {server.title()} DailyPlayer probe failed: {e}")
             # ---- darkplayer fallback (no 4K) ----
             if dark_fmts and dark_info:
                 label = f"{server} darkplayer"
