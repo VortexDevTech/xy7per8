@@ -176,5 +176,29 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Throne of Seal Episode 203 English Sub Indonesia",
+        "uid": "Throne_of_Seal_Episode_203_English_Sub_Indonesia_Ep203",
+        "link": "https://anoboye.com/throne-of-seal-episode-203-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Shrouding the Heavens Episode 153 English Sub Indonesia",
+        "uid": "Shrouding_the_Heavens_Episode_153_English_Sub_Indonesia_Ep153",
+        "link": "https://anoboye.com/shrouding-the-heavens-episode-153-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
