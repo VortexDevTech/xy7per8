@@ -355,5 +355,29 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Beyond Time’s Gaze Episode 14 English Sub Indonesia",
+        "uid": "Beyond_Time’s_Gaze_Episode_14_English_Sub_Indonesia_Ep14",
+        "link": "https://anoboye.com/beyond-times-gaze-episode-14-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Battle Through the Heavens Season 5 Episode 191 English Sub Indonesia",
+        "uid": "Battle_Through_the_Heavens_Season_5_Episode_191_English_Sub_Indonesia_Ep191",
+        "link": "https://anoboye.com/battle-through-the-heavens-season-5-episode-191-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
