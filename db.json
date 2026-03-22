@@ -391,5 +391,53 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Tales of Herding Gods Episode 75 English Sub Indonesia",
+        "uid": "Tales_of_Herding_Gods_Episode_75_English_Sub_Indonesia_Ep75",
+        "link": "https://anoboye.com/tales-of-herding-gods-episode-75-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "How Dare You! Season 2 Episode 11 English Sub Indonesia",
+        "uid": "How_Dare_You!_Season_2_Episode_11_English_Sub_Indonesia_Ep11",
+        "link": "https://anoboye.com/how-dare-you-season-2-episode-11-english-sub-indonesia/",
+        "server": "xiao darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "100000 Years of Refining Qi Episode 330 English Sub Indonesia",
+        "uid": "100000_Years_of_Refining_Qi_Episode_330_English_Sub_Indonesia_Ep330",
+        "link": "https://anoboye.com/100000-years-of-refining-qi-episode-330-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Ten Thousand Worlds Episode 432 English Sub Indonesia",
+        "uid": "Ten_Thousand_Worlds_Episode_432_English_Sub_Indonesia_Ep432",
+        "link": "https://anoboye.com/ten-thousand-worlds-episode-432-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
