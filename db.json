@@ -509,5 +509,40 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Apotheosis Season 3 Episode 17 English Sub Indonesia",
+        "uid": "Apotheosis_Season_3_Episode_17_English_Sub_Indonesia_Ep17",
+        "link": "https://anoboye.com/apotheosis-season-3-episode-17-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            480
+        ]
+    },
+    {
+        "episode": "The Gate of Mystical Realm Episode 19 English Sub Indonesia",
+        "uid": "The_Gate_of_Mystical_Realm_Episode_19_English_Sub_Indonesia_Ep19",
+        "link": "https://anoboye.com/the-gate-of-mystical-realm-episode-19-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Swallowed Star Season 4 Episode 86 (216) English Sub Indonesia",
+        "uid": "Swallowed_Star_Season_4_Episode_86_(216)_English_Sub_Indonesia_Ep86216",
+        "link": "https://anoboye.com/swallowed-star-season-4-episode-86-216-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
