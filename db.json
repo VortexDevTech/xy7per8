@@ -660,5 +660,29 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Divine Manifestation Episode 25 English Sub Indonesia",
+        "uid": "Divine_Manifestation_Episode_25_English_Sub_Indonesia_Ep25",
+        "link": "https://anoboye.com/divine-manifestation-episode-25-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Shrouding the Heavens Episode 154 English Sub Indonesia",
+        "uid": "Shrouding_the_Heavens_Episode_154_English_Sub_Indonesia_Ep154",
+        "link": "https://anoboye.com/shrouding-the-heavens-episode-154-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
