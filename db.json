@@ -684,5 +684,53 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "In Search of Gods Episode 3 English Sub Indonesia",
+        "uid": "In_Search_of_Gods_Episode_3_English_Sub_Indonesia_Ep3",
+        "link": "https://anoboye.com/in-search-of-gods-episode-3-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Gate of Mystical Realm Episode 20 English Sub Indonesia",
+        "uid": "The_Gate_of_Mystical_Realm_Episode_20_English_Sub_Indonesia_Ep20",
+        "link": "https://anoboye.com/the-gate-of-mystical-realm-episode-20-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Dragon’s Triumph in the Celestial Realm Episode 20 English Sub Indonesia",
+        "uid": "Dragon’s_Triumph_in_the_Celestial_Realm_Episode_20_English_Sub_Indonesia_Ep20",
+        "link": "https://anoboye.com/dragons-triumph-in-the-celestial-realm-episode-20-english-sub-indonesia/",
+        "server": "xiao darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Immortal Doctor Episode 160 English Sub Indonesia",
+        "uid": "The_Immortal_Doctor_Episode_160_English_Sub_Indonesia_Ep160",
+        "link": "https://anoboye.com/the-immortal-doctor-episode-160-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
