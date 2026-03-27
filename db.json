@@ -826,5 +826,29 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "The Great Ruler Season 2 Episode 14 English Sub Indonesia",
+        "uid": "The_Great_Ruler_Season_2_Episode_14_English_Sub_Indonesia_Ep14",
+        "link": "https://anoboye.com/the-great-ruler-season-2-episode-14-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Other Side of Deep Space Episode 13 English Sub Indonesia",
+        "uid": "The_Other_Side_of_Deep_Space_Episode_13_English_Sub_Indonesia_Ep13",
+        "link": "https://anoboye.com/the-other-side-of-deep-space-episode-13-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
