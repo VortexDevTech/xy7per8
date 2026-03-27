@@ -850,5 +850,29 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Immortality Season 5 Episode 17 English Sub Indonesia",
+        "uid": "Immortality_Season_5_Episode_17_English_Sub_Indonesia_Ep17",
+        "link": "https://anoboye.com/immortality-season-5-episode-17-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Soul Land 2 The Peerless Tang Clan Episode 146 English Sub Indonesia",
+        "uid": "Soul_Land_2_The_Peerless_Tang_Clan_Episode_146_English_Sub_Indonesia_Ep146",
+        "link": "https://anoboye.com/soul-land-2-the-peerless-tang-clan-episode-146-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
