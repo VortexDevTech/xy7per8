@@ -1472,5 +1472,41 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "How Dare You! Season 2 Episode 13 English Sub Indonesia",
+        "uid": "How_Dare_You!_Season_2_Episode_13_English_Sub_Indonesia_Ep13",
+        "link": "https://anoboye.com/how-dare-you-season-2-episode-13-english-sub-indonesia/",
+        "server": "xiao darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Martial Master Episode 645 English Sub Indonesia",
+        "uid": "Martial_Master_Episode_645_English_Sub_Indonesia_Ep645",
+        "link": "https://anoboye.com/martial-master-episode-645-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Immortal Doctor Episode 163 English Sub Indonesia",
+        "uid": "The_Immortal_Doctor_Episode_163_English_Sub_Indonesia_Ep163",
+        "link": "https://anoboye.com/the-immortal-doctor-episode-163-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
