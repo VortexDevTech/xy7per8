@@ -1616,5 +1616,40 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "The Immortal VS Superheroes Episode 28 English Sub Indonesia",
+        "uid": "The_Immortal_VS_Superheroes_Episode_28_English_Sub_Indonesia_Ep28",
+        "link": "https://anoboye.com/the-immortal-vs-superheroes-episode-28-english-sub-indonesia/",
+        "server": "lucifer darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Aliens Among Immortals Episode 16 English Sub Indonesia",
+        "uid": "Aliens_Among_Immortals_Episode_16_English_Sub_Indonesia_Ep16",
+        "link": "https://anoboye.com/aliens-among-immortals-episode-16-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Ascendants of the Nine Suns Episode 23 English Sub Indonesia",
+        "uid": "Ascendants_of_the_Nine_Suns_Episode_23_English_Sub_Indonesia_Ep23",
+        "link": "https://anoboye.com/ascendants-of-the-nine-suns-episode-23-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
