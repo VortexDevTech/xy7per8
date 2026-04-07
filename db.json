@@ -1651,5 +1651,53 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Peerless Battle Spirit Episode 172 English Sub Indonesia",
+        "uid": "Peerless_Battle_Spirit_Episode_172_English_Sub_Indonesia_Ep172",
+        "link": "https://anoboye.com/peerless-battle-spirit-episode-172-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Sword and Fairy 3 Episode 17 English Sub Indonesia",
+        "uid": "Sword_and_Fairy_3_Episode_17_English_Sub_Indonesia_Ep17",
+        "link": "https://anoboye.com/sword-and-fairy-3-episode-17-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Martial Master Episode 646 English Sub Indonesia",
+        "uid": "Martial_Master_Episode_646_English_Sub_Indonesia_Ep646",
+        "link": "https://anoboye.com/martial-master-episode-646-english-sub-indonesia/",
+        "server": "lucifer darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Ten Thousand Worlds Episode 437 English Sub Indonesia",
+        "uid": "Ten_Thousand_Worlds_Episode_437_English_Sub_Indonesia_Ep437",
+        "link": "https://anoboye.com/ten-thousand-worlds-episode-437-english-sub-indonesia/",
+        "server": "lucifer darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
