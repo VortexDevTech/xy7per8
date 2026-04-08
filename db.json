@@ -1711,5 +1711,53 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "In Search of Gods Episode 5 English Sub Indonesia",
+        "uid": "In_Search_of_Gods_Episode_5_English_Sub_Indonesia_Ep5",
+        "link": "https://anoboye.com/in-search-of-gods-episode-5-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Big Brother Season 2 Episode 123 (136) English Sub Indonesia",
+        "uid": "Big_Brother_Season_2_Episode_123_(136)_English_Sub_Indonesia_Ep123136",
+        "link": "https://anoboye.com/big-brother-season-2-episode-123-136-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Gate of Mystical Realm Episode 22 English Sub Indonesia",
+        "uid": "The_Gate_of_Mystical_Realm_Episode_22_English_Sub_Indonesia_Ep22",
+        "link": "https://anoboye.com/the-gate-of-mystical-realm-episode-22-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Immortal Doctor Episode 164 English Sub Indonesia",
+        "uid": "The_Immortal_Doctor_Episode_164_English_Sub_Indonesia_Ep164",
+        "link": "https://anoboye.com/the-immortal-doctor-episode-164-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
