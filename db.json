@@ -1831,5 +1831,28 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Spirit Master Episode 9 English Sub Indonesia",
+        "uid": "Spirit_Master_Episode_9_English_Sub_Indonesia_Ep9",
+        "link": "https://anoboye.com/spirit-master-episode-9-english-sub-indonesia/",
+        "server": "xiao dailyplayer",
+        "qualities_downloaded": [
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Wanmei Shijie [Perfect World] Episode 263 English Sub Indonesia",
+        "uid": "Wanmei_Shijie_[Perfect_World]_Episode_263_English_Sub_Indonesia_Ep263",
+        "link": "https://anoboye.com/wanmei-shijie-perfect-world-episode-263-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
