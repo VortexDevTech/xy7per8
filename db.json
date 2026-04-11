@@ -1961,5 +1961,53 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Beyond Time’s Gaze Episode 17 English Sub Indonesia",
+        "uid": "Beyond_Time’s_Gaze_Episode_17_English_Sub_Indonesia_Ep17",
+        "link": "https://anoboye.com/beyond-times-gaze-episode-17-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Legend of Xianwu Emperor Episode 167 English Sub Indonesia",
+        "uid": "Legend_of_Xianwu_Emperor_Episode_167_English_Sub_Indonesia_Ep167",
+        "link": "https://anoboye.com/legend-of-xianwu-emperor-episode-167-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Way of Choices Episode 13 English Sub Indonesia",
+        "uid": "Way_of_Choices_Episode_13_English_Sub_Indonesia_Ep13",
+        "link": "https://anoboye.com/way-of-choices-episode-13-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Ten Thousand Worlds Episode 438 English Sub Indonesia",
+        "uid": "Ten_Thousand_Worlds_Episode_438_English_Sub_Indonesia_Ep438",
+        "link": "https://anoboye.com/ten-thousand-worlds-episode-438-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
