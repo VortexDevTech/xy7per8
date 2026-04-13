@@ -2128,5 +2128,29 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Apotheosis Season 3 Episode 20 English Sub Indonesia",
+        "uid": "Apotheosis_Season_3_Episode_20_English_Sub_Indonesia_Ep20",
+        "link": "https://anoboye.com/apotheosis-season-3-episode-20-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Swallowed Star Season 4 Episode 89 (219) English Sub Indonesia",
+        "uid": "Swallowed_Star_Season_4_Episode_89_(219)_English_Sub_Indonesia_Ep89219",
+        "link": "https://anoboye.com/swallowed-star-season-4-episode-89-219-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
