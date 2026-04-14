@@ -2221,5 +2221,28 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Shrouding the Heavens Episode 158 English Sub Indonesia",
+        "uid": "Shrouding_the_Heavens_Episode_158_English_Sub_Indonesia_Ep158",
+        "link": "https://anoboye.com/shrouding-the-heavens-episode-158-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Aliens Among Immortals Episode 18 English Sub Indonesia",
+        "uid": "Aliens_Among_Immortals_Episode_18_English_Sub_Indonesia_Ep18",
+        "link": "https://anoboye.com/aliens-among-immortals-episode-18-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            1080,
+            720,
+            480
+        ]
     }
 ]
