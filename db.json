@@ -2152,5 +2152,74 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Sword and Fairy 3 Episode 18 English Sub Indonesia",
+        "uid": "Sword_and_Fairy_3_Episode_18_English_Sub_Indonesia_Ep18",
+        "link": "https://anoboye.com/sword-and-fairy-3-episode-18-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Ten Thousand Worlds Episode 439 English Sub Indonesia",
+        "uid": "Ten_Thousand_Worlds_Episode_439_English_Sub_Indonesia_Ep439",
+        "link": "https://anoboye.com/ten-thousand-worlds-episode-439-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Ascendants of the Nine Suns Episode 24 English Sub Indonesia",
+        "uid": "Ascendants_of_the_Nine_Suns_Episode_24_English_Sub_Indonesia_Ep24",
+        "link": "https://anoboye.com/ascendants-of-the-nine-suns-episode-24-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Immortal VS Superheroes Episode 31 English Sub Indonesia",
+        "uid": "The_Immortal_VS_Superheroes_Episode_31_English_Sub_Indonesia_Ep31",
+        "link": "https://anoboye.com/the-immortal-vs-superheroes-episode-31-english-sub-indonesia/",
+        "server": "comixy darkplayer",
+        "qualities_downloaded": [
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Peerless Battle Spirit Episode 173 English Sub Indonesia",
+        "uid": "Peerless_Battle_Spirit_Episode_173_English_Sub_Indonesia_Ep173",
+        "link": "https://anoboye.com/peerless-battle-spirit-episode-173-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Martial Master Episode 648 English Sub Indonesia",
+        "uid": "Martial_Master_Episode_648_English_Sub_Indonesia_Ep648",
+        "link": "https://anoboye.com/martial-master-episode-648-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            1080,
+            720,
+            480
+        ]
     }
 ]
