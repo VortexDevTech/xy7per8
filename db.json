@@ -2244,5 +2244,64 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "The Gate of Mystical Realm Episode 23 English Sub Indonesia",
+        "uid": "The_Gate_of_Mystical_Realm_Episode_23_English_Sub_Indonesia_Ep23",
+        "link": "https://anoboye.com/the-gate-of-mystical-realm-episode-23-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Big Brother Season 2 Episode 124 (137) English Sub Indonesia",
+        "uid": "Big_Brother_Season_2_Episode_124_(137)_English_Sub_Indonesia_Ep124137",
+        "link": "https://anoboye.com/big-brother-season-2-episode-124-137-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "In Search of Gods Episode 6 English Sub Indonesia",
+        "uid": "In_Search_of_Gods_Episode_6_English_Sub_Indonesia_Ep6",
+        "link": "https://anoboye.com/in-search-of-gods-episode-6-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Immortal Doctor Episode 166 English Sub Indonesia",
+        "uid": "The_Immortal_Doctor_Episode_166_English_Sub_Indonesia_Ep166",
+        "link": "https://anoboye.com/the-immortal-doctor-episode-166-english-sub-indonesia/",
+        "server": "lucifer dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "100000 Years of Refining Qi Episode 337 English Sub Indonesia",
+        "uid": "100000_Years_of_Refining_Qi_Episode_337_English_Sub_Indonesia_Ep337",
+        "link": "https://anoboye.com/100000-years-of-refining-qi-episode-337-english-sub-indonesia/",
+        "server": "xiao darkplayer",
+        "qualities_downloaded": [
+            1080,
+            720,
+            480
+        ]
     }
 ]
