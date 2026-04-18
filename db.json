@@ -2575,5 +2575,29 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Battle Through the Heavens Season 5 Episode 195 English Sub Indonesia",
+        "uid": "Battle_Through_the_Heavens_Season_5_Episode_195_English_Sub_Indonesia_Ep195",
+        "link": "https://anoboye.com/battle-through-the-heavens-season-5-episode-195-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Beyond Time’s Gaze Episode 18 English Sub Indonesia",
+        "uid": "Beyond_Time’s_Gaze_Episode_18_English_Sub_Indonesia_Ep18",
+        "link": "https://anoboye.com/beyond-times-gaze-episode-18-english-sub-indonesia/",
+        "server": "animecube dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
