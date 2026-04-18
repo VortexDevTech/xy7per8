@@ -2515,5 +2515,53 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Legend of Xianwu Emperor Episode 168 English Sub Indonesia",
+        "uid": "Legend_of_Xianwu_Emperor_Episode_168_English_Sub_Indonesia_Ep168",
+        "link": "https://anoboye.com/legend-of-xianwu-emperor-episode-168-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Ten Thousand Worlds Episode 440 English Sub Indonesia",
+        "uid": "Ten_Thousand_Worlds_Episode_440_English_Sub_Indonesia_Ep440",
+        "link": "https://anoboye.com/ten-thousand-worlds-episode-440-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Spy x Sect Episode 144 English Sub Indonesia",
+        "uid": "Spy_x_Sect_Episode_144_English_Sub_Indonesia_Ep144",
+        "link": "https://anoboye.com/spy-x-sect-episode-144-english-sub-indonesia/",
+        "server": "lucifer darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Immortal VS Superheroes Episode 33 English Sub Indonesia",
+        "uid": "The_Immortal_VS_Superheroes_Episode_33_English_Sub_Indonesia_Ep33",
+        "link": "https://anoboye.com/the-immortal-vs-superheroes-episode-33-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
