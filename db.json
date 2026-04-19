@@ -2599,5 +2599,53 @@
             720,
             480
         ]
+    },
+    {
+        "episode": "Tales of Herding Gods Episode 79 English Sub Indonesia",
+        "uid": "Tales_of_Herding_Gods_Episode_79_English_Sub_Indonesia_Ep79",
+        "link": "https://anoboye.com/tales-of-herding-gods-episode-79-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "Martial Master Episode 649 English Sub Indonesia",
+        "uid": "Martial_Master_Episode_649_English_Sub_Indonesia_Ep649",
+        "link": "https://anoboye.com/martial-master-episode-649-english-sub-indonesia/",
+        "server": "lucifer darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "The Immortal Doctor Episode 167 English Sub Indonesia",
+        "uid": "The_Immortal_Doctor_Episode_167_English_Sub_Indonesia_Ep167",
+        "link": "https://anoboye.com/the-immortal-doctor-episode-167-english-sub-indonesia/",
+        "server": "donghuastream dailyplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
+    },
+    {
+        "episode": "100000 Years of Refining Qi Episode 338 English Sub Indonesia",
+        "uid": "100000_Years_of_Refining_Qi_Episode_338_English_Sub_Indonesia_Ep338",
+        "link": "https://anoboye.com/100000-years-of-refining-qi-episode-338-english-sub-indonesia/",
+        "server": "donghuastream darkplayer",
+        "qualities_downloaded": [
+            2160,
+            1080,
+            720,
+            480
+        ]
     }
 ]
